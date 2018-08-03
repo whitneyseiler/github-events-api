@@ -1,6 +1,7 @@
 import React from 'react';
 import $ from 'jquery';
 import FormOne from './FormOne.jsx';
+import ResultsContainer from './ResultsContainer.jsx';
 
 class App extends React.Component {
   constructor(props) {
@@ -41,6 +42,7 @@ class App extends React.Component {
       <div>
         <h1>GitHub Events API Fetcher</h1>
         <FormOne />
+        <ResultsContainer />
       </div>
     )
   }

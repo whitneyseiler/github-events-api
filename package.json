@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "react-dev": "webpack -d --watch",
-    "server": "nodemon server/index.js"
+    "server": "nodemon server/index.js",
+    "start": "node server && node react-dev"
   },
   "author": "Whitney Seiler",
   "license": "ISC",
