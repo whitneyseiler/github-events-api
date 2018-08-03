@@ -1,5 +1,6 @@
 import React from 'react';
 import $ from 'jquery';
+import axios from 'axios';
 import FormOne from './FormOne.jsx';
 import ResultsContainer from './ResultsContainer.jsx';
 
@@ -14,6 +15,7 @@ class App extends React.Component {
     }
 
     this.handleChange = this.handleChange.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
   }
 
   componentDidMount() {
@@ -37,24 +39,23 @@ class App extends React.Component {
     });
   }
 
-  onSubmit(event) {
-    event.preventDefault();
-
-    var form = document.getElementsByClassName('form');
-
-    for (var i = 0; i < form.length; ++i) {
-      let field = form[i].id;
-      let value = form[i].value;
-      console.log(field, ' : ', value)
-      this.setState({
-        [field]: value
-      }, console.log(this.state));
-    } 
+  onSubmit() {
+    let owner = this.state.owner;
+    let repo = this.state.repo;
+    let event = this.state.event;
+    
+    axios.get(`https://api.github.com/users/${owner}/${repo}/`)
+      .then(function (response) {
+        console.log(response);
+      })
+      .catch(function (error) {
+        console.log(error);
+      }); 
   }
 
   render () {
     return (
-      <div>
+      <div className="container grey lighten-2 center-align">
         <h1>GitHub Events API Fetcher</h1>
         <FormOne 
           onSubmit={this.onSubmit} 
