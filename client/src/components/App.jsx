@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react';
-import $ from 'jquery';
 import axios from 'axios';
 import FormOne from './FormOne.jsx';
 import ResultsContainer from './ResultsContainer.jsx';
@@ -61,11 +60,6 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    var element = ReactDOM.findDOMNode(this.refs.dropdown)
-        
-    $(element).ready(function() {
-        $('select').material_select();
-    });
   }
 
   handleChange(event) {
@@ -81,6 +75,8 @@ class App extends React.Component {
     let owner = this.state.owner;
     let repo = this.state.repo;
     let event = this.state.event;
+
+    console.log(owner, repo, event)
     
     axios.get(`https://api.github.com/repos/${owner}/${repo}/events`)
       .then(function (response) {
