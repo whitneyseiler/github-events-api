@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react';
 import $ from 'jquery';
 import axios from 'axios';
 import FormOne from './FormOne.jsx';
@@ -11,7 +12,48 @@ class App extends React.Component {
     this.state = {
       owner: '',
       repo: '',
-      event: ''
+      event: '',
+      events: ['CheckRunEvent',
+        'CheckSuiteEvent',
+        'CommitCommentEvent',
+        'CreateEvent',
+        'DeleteEvent',
+        'DeploymentEvent',
+        'DeploymentStatusEvent',
+        'DownloadEvent',
+        'FollowEvent',
+        'ForkEvent',
+        'ForkApplyEvent',
+        'GitHubAppAuthorizationEvent',
+        'GistEvent',
+        'GollumEvent',
+        'InstallationEvent',
+        'InstallationRepositoriesEvent',
+        'IssueCommentEvent',
+        'IssuesEvent',
+        'LabelEvent',
+        'MarketplacePurchaseEvent',
+        'MemberEvent',
+        'MembershipEvent',
+        'MilestoneEvent',
+        'OrganizationEvent',
+        'OrgBlockEvent',
+        'PageBuildEvent',
+        'ProjectCardEvent',
+        'ProjectColumnEvent',
+        'ProjectEvent',
+        'PublicEvent',
+        'PullRequestEvent',
+        'PullRequestReviewEvent',
+        'PullRequestReviewCommentEvent',
+        'PushEvent',
+        'ReleaseEvent',
+        'RepositoryEvent',
+        'RepositoryVulnerabilityAlertEvent',
+        'StatusEvent',
+        'TeamEvent',
+        'TeamAddEvent',
+        'WatchEvent']
     }
 
     this.handleChange = this.handleChange.bind(this);
@@ -19,15 +61,11 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    // $.ajax({
-    //   url: '', 
-    //   success: (data) => {
-    //     console.log(data)
-    //   },
-    //   error: (err) => {
-    //     console.log('err', err);
-    //   }
-    // });
+    var element = ReactDOM.findDOMNode(this.refs.dropdown)
+        
+    $(element).ready(function() {
+        $('select').material_select();
+    });
   }
 
   handleChange(event) {
@@ -44,7 +82,7 @@ class App extends React.Component {
     let repo = this.state.repo;
     let event = this.state.event;
     
-    axios.get(`https://api.github.com/users/${owner}/${repo}/`)
+    axios.get(`https://api.github.com/repos/${owner}/${repo}/events`)
       .then(function (response) {
         console.log(response);
       })
@@ -63,6 +101,7 @@ class App extends React.Component {
           owner={this.state.owner} 
           repo={this.state.repo} 
           event={this.state.event}
+          events={this.state.events}
         />
         <ResultsContainer />
       </div>
