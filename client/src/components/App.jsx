@@ -12,7 +12,7 @@ class App extends React.Component {
       owner: '',
       repo: '',
       event: '',
-      events: ['PushEvent']
+      events: ['Select...']
     }
 
     this.handleChange = this.handleChange.bind(this);
@@ -48,16 +48,14 @@ class App extends React.Component {
     axios.get(`https://api.github.com/repos/${owner}/${repo}/events`)
     .then(function (response) {
       let data = response.data;
-      let eventList = [];
+      let eventList = ['Select Event'];
 
       data.forEach((event) => {
         if (!events.includes(event.type)) {
           eventList.push(event.type)
         }
       });
-
-      console.log(eventList);
-
+      
       this.setState({
         events: eventList
       });
