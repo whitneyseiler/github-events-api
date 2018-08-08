@@ -12,14 +12,15 @@ class App extends React.Component {
       owner: '',
       repo: '',
       event: '',
-      events: ['Select...']
+      events: ['Select...'],
+      results: [],
+      displayResults: false
     }
 
     this.handleChange = this.handleChange.bind(this);
     this.filterEvents = this.filterEvents.bind(this);
-    this.filterEvents = this.debounce(this.filterEvents)
+    this.filterEvents = this.debounce(this.filterEvents);
     this.onSubmit = this.onSubmit.bind(this);
-    this.displayResults = this.displayResults.bind(this);
   }
 
   /*
@@ -62,20 +63,30 @@ class App extends React.Component {
     console.log('API CALL: ', this.state.repo)
     let owner = this.state.owner;
     let repo = this.state.repo;
+    let context = this;
 
     axios.get(`https://api.github.com/repos/${owner}/${repo}/events`)
     .then(function (response) {
-      let data = response.data;
       let eventList = ['Select Event'];
+      let data = [];
 
-      data.forEach((event) => {
-        if (!events.includes(event.type)) {
+      response.data.forEach((event) => {
+        if (!eventList.includes(event.type)) {
           eventList.push(event.type)
         }
+        let obj = {};
+        obj.id = event.id;
+        obj.type = event.type;
+        obj.created_at = event.created_at;
+        obj.actor = event.actor.login;
+        obj.actor_id = event.actor.id;
+        obj.actor_url = event.actor.url;
+        data.push(obj)
       });
 
-      this.setState({
-        events: eventList
+      context.setState({
+        events: eventList,
+        results: data
       });
     })
     .catch(function (error) {
@@ -83,21 +94,15 @@ class App extends React.Component {
     }); 
   }
 
-  onSubmit() {
-    this.displayResults();
-  }
-
   /*
   * render results
   */
-  displayResults(data) {
-    data.forEach((event) => {
-      console.log(event.actor.login);
-      console.log(event.actor.id);
-      console.log(event.actor.url);
-      console.log(event.type);
-      console.log(event.created_at)
-    })
+  onSubmit() {
+    if (this.state.results.length) {
+      this.setState({
+        displayResults: true,
+      })
+    }
   }
 
   render () {
@@ -112,7 +117,7 @@ class App extends React.Component {
           event={this.state.event}
           events={this.state.events}
         />
-        <ResultsContainer />
+        <ResultsContainer display={this.state.displayResults} results={this.state.results}/>
       </div>
     )
   }
