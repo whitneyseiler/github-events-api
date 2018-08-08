@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react';
 import {Row, Input, Button} from 'react-materialize'
 
-let FormOne = ({handleChange, onSubmit, owner, repo, events, e}) => {
+let Search = ({handleChange, onSubmit, owner, repo, events, e}) => {
     return (
         <div>
             <p>Please Enter Your Repo Information:</p>
@@ -27,4 +27,4 @@ let FormOne = ({handleChange, onSubmit, owner, repo, events, e}) => {
     )
 }
 
-export default FormOne;
+export default Search;

@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react';
 import axios from 'axios';
-import FormOne from './FormOne.jsx';
+import Search from './Search.jsx';
 import ResultsContainer from './ResultsContainer.jsx';
 
 class App extends React.Component {
@@ -104,7 +104,7 @@ class App extends React.Component {
     return (
       <div className="container grey lighten-2 center-align">
         <h1>GitHub Events API Fetcher</h1>
-        <FormOne 
+        <Search 
           onSubmit={this.onSubmit} 
           handleChange={this.handleChange} 
           owner={this.state.owner} 
