@@ -14,7 +14,7 @@ let FormOne = ({handleChange, onSubmit, owner, repo, events, e}) => {
                     id='event'
                     s={3} 
                     label="Event Type" 
-                    defaultValue='2' 
+                    defaultValue='Event Type' 
                     onChange={(e) => handleChange(e)}
                 >
                     {events.map((event, key) => {

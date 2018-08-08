@@ -12,55 +12,17 @@ class App extends React.Component {
       owner: '',
       repo: '',
       event: '',
-      events: ['CheckRunEvent',
-        'CheckSuiteEvent',
-        'CommitCommentEvent',
-        'CreateEvent',
-        'DeleteEvent',
-        'DeploymentEvent',
-        'DeploymentStatusEvent',
-        'DownloadEvent',
-        'FollowEvent',
-        'ForkEvent',
-        'ForkApplyEvent',
-        'GitHubAppAuthorizationEvent',
-        'GistEvent',
-        'GollumEvent',
-        'InstallationEvent',
-        'InstallationRepositoriesEvent',
-        'IssueCommentEvent',
-        'IssuesEvent',
-        'LabelEvent',
-        'MarketplacePurchaseEvent',
-        'MemberEvent',
-        'MembershipEvent',
-        'MilestoneEvent',
-        'OrganizationEvent',
-        'OrgBlockEvent',
-        'PageBuildEvent',
-        'ProjectCardEvent',
-        'ProjectColumnEvent',
-        'ProjectEvent',
-        'PublicEvent',
-        'PullRequestEvent',
-        'PullRequestReviewEvent',
-        'PullRequestReviewCommentEvent',
-        'PushEvent',
-        'ReleaseEvent',
-        'RepositoryEvent',
-        'RepositoryVulnerabilityAlertEvent',
-        'StatusEvent',
-        'TeamEvent',
-        'TeamAddEvent',
-        'WatchEvent']
+      events: ['PushEvent']
     }
 
     this.handleChange = this.handleChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
+    this.filterEvents.bind(this);
+    this.displayResults = this.displayResults.bind(this);
   }
 
-  componentDidMount() {
-  }
+  // componentDidMount() {
+  // }
 
   handleChange(event) {
     let id = event.target.id;
@@ -68,23 +30,52 @@ class App extends React.Component {
   
     this.setState({
       [id] : value
+    }, () => {
+      if (id === 'repo') {
+        this.filterEvents();
+      }
     });
   }
 
   onSubmit() {
+    this.displayResults();
+  }
+
+  filterEvents() {
     let owner = this.state.owner;
     let repo = this.state.repo;
-    let event = this.state.event;
 
-    console.log(owner, repo, event)
-    
     axios.get(`https://api.github.com/repos/${owner}/${repo}/events`)
-      .then(function (response) {
-        console.log(response);
-      })
-      .catch(function (error) {
-        console.log(error);
-      }); 
+    .then(function (response) {
+      let data = response.data;
+      let eventList = [];
+
+      data.forEach((event) => {
+        if (!events.includes(event.type)) {
+          eventList.push(event.type)
+        }
+      });
+
+      console.log(eventList);
+
+      this.setState({
+        events: eventList
+      });
+    })
+    .catch(function (error) {
+      console.log(error);
+    }); 
+  }
+
+  displayResults(data) {
+    //event type, actor information, and timestamp
+    data.forEach((event) => {
+      console.log(event.actor.login);
+      console.log(event.actor.id);
+      console.log(event.actor.url);
+      console.log(event.type);
+      console.log(event.created_at)
+    })
   }
 
   render () {
