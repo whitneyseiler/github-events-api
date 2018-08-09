@@ -4,7 +4,7 @@ import {Row, Input, Button} from 'react-materialize'
 
 let Search = ({handleChange, onSubmit, owner, repo, events, e}) => {
     return (
-        <div>
+        <div className="container center-align">
             <p>Please Enter Your Repo Information:</p>
             <Row>
                 <Input type="text" id="owner" label="Owner:" onChange={(e) => handleChange(e)}/>

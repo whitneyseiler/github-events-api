@@ -111,7 +111,7 @@ class App extends React.Component {
     return (
       //classNames are Materialize classes
       <div className="container grey lighten-2 center-align">
-        <h1>GitHub Events API Fetcher</h1>
+        <h2>GitHub Events API Fetcher</h2>
         <Search 
           onSubmit={this.onSubmit} 
           handleChange={this.handleChange} 
