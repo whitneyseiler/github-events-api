@@ -1,9 +1,10 @@
 import React from 'react';
 import EventRow from './EventRow.jsx';
 
-let ResultsContainer = ({display, results}) => {
+let ResultsContainer = ({display, results, eventType}) => {
     
     return (
+        //note: classNames are Materialize classes
         <div className="card blue-grey darken-1">
             <div className="card-content white-text">
                 <span className="card-title">Results</span>
@@ -20,10 +21,14 @@ let ResultsContainer = ({display, results}) => {
 
                     <tbody>
                         {display ? 
+                            //if 'display' is true, results have been returned
+                            //populate table with results matching user selected event type
                             results.map((event, key) => {
-                                let temp = [event]
-                                return <EventRow {...temp} key={event.id} />
+                                if (event.type === eventType) {
+                                    return <EventRow key={event.id} {...[event]} />
+                                }
                             }) : 
+                            //if 'display' is false, no results have been found
                             <tr><td>No data to display...</td></tr>
                         }
                     </tbody>

@@ -12,14 +12,14 @@ class App extends React.Component {
       owner: '',
       repo: '',
       event: '',
-      events: ['Select...'],
+      events: [],
       results: [],
       displayResults: false
     }
 
     this.handleChange = this.handleChange.bind(this);
-    this.filterEvents = this.filterEvents.bind(this);
-    this.filterEvents = this.debounce(this.filterEvents);
+    this.fetchEventData = this.fetchEventData.bind(this);
+    this.fetchEventData = this.debounce(this.fetchEventData);
     this.onSubmit = this.onSubmit.bind(this);
   }
 
@@ -40,7 +40,7 @@ class App extends React.Component {
   }
 
   /*
-  * update state with user input
+  * update state with user input from search form
   */
   handleChange(event) {
     let id = event.target.id;
@@ -50,19 +50,20 @@ class App extends React.Component {
       [id] : value
     }, () => {
       if (id === 'repo') {
-        this.filterEvents();
+        this.fetchEventData();
       }
     });
   }
 
   /*
   * when user finishes typing repo name, populate drop down list of
-  * event types only with events returned by API call
+  * with repo-associated event types returned by API call
   */
-  filterEvents() {
-    console.log('API CALL: ', this.state.repo)
+  fetchEventData() {
     let owner = this.state.owner;
     let repo = this.state.repo;
+
+    //maintain proper scope when setting state after axios call
     let context = this;
 
     axios.get(`https://api.github.com/repos/${owner}/${repo}/events`)
@@ -95,7 +96,8 @@ class App extends React.Component {
   }
 
   /*
-  * render results
+  * when user clicks display button, check if results are found
+  * if results found, populate table with results
   */
   onSubmit() {
     if (this.state.results.length) {
@@ -107,6 +109,7 @@ class App extends React.Component {
 
   render () {
     return (
+      //classNames are Materialize classes
       <div className="container grey lighten-2 center-align">
         <h1>GitHub Events API Fetcher</h1>
         <Search 
@@ -117,7 +120,11 @@ class App extends React.Component {
           event={this.state.event}
           events={this.state.events}
         />
-        <ResultsContainer display={this.state.displayResults} results={this.state.results}/>
+        <ResultsContainer 
+          display={this.state.displayResults} 
+          results={this.state.results} 
+          eventType={this.state.event}
+        />
       </div>
     )
   }
