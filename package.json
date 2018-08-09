@@ -20,11 +20,8 @@
   "dependencies": {
     "axios": "^0.18.0",
     "express": "^4.15.0",
-    "jquery": "^3.1.1",
     "materialize-css": "^1.0.0-beta",
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
-    "react-materialize": "^2.1.4",
-    "request": "^2.87.0"
-  }
+    "react-materialize": "^2.1.4",  }
 }
