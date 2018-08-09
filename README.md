@@ -1,6 +1,5 @@
 # github-events-api
-completed as a coding exercise for SeeClickFix
-Live demo can be found [here](https://whitneyseiler.github.io/github-events-api/)
+Completed as a coding exercise for SeeClickFix.Live demo can be found [here](https://whitneyseiler.github.io/github-events-api/).
 
 #How to Run Locally
 1. Install dependencies: `-npm install`
