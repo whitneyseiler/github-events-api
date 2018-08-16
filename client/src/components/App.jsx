@@ -43,8 +43,7 @@ class App extends React.Component {
   * update state with user input from search form
   */
   handleChange(event) {
-    let id = event.target.id;
-    let value = event.target.value;
+    const {id, value} = event.target;
 
     this.setState({
       [id] : value
@@ -60,33 +59,16 @@ class App extends React.Component {
   * with repo-associated event types returned by API call
   */
   fetchEventData() {
-    let owner = this.state.owner;
-    let repo = this.state.repo;
-
-    //maintain proper scope when setting state after axios call
-    let context = this;
+    const {owner, repo} = this.state;
 
     axios.get(`https://api.github.com/repos/${owner}/${repo}/events`)
-    .then(function (response) {
-      let eventList = ['Select Event'];
-      let data = [];
+    .then(response => {
+      const {data} = response;
 
-      response.data.forEach((event) => {
-        if (!eventList.includes(event.type)) {
-          eventList.push(event.type)
-        }
-        let obj = {};
-        obj.id = event.id;
-        obj.type = event.type;
-        obj.created_at = event.created_at;
-        obj.actor = event.actor.login;
-        obj.actor_id = event.actor.id;
-        obj.actor_url = event.actor.url;
-        data.push(obj)
-      });
+      const eventList = new Set(data.map(event => event.type))
 
-      context.setState({
-        events: eventList,
+      this.setState({
+        events: ['Select Event',...eventList],
         results: data
       });
     })
@@ -122,7 +104,7 @@ class App extends React.Component {
         />
         <ResultsContainer 
           display={this.state.displayResults} 
-          results={this.state.results} 
+          results={this.state.results.filter(event => event.type === this.state.event)} 
           eventType={this.state.event}
         />
       </div>

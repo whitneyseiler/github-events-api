@@ -24,9 +24,7 @@ let ResultsContainer = ({display, results, eventType}) => {
                             //if 'display' is true, results have been returned
                             //populate table with results matching user selected event type
                             results.map((event, key) => {
-                                if (event.type === eventType) {
-                                    return <EventRow key={event.id} {...[event]} />
-                                }
+                                return <EventRow key={event.id} event={event} />
                             }) : 
                             //if 'display' is false, no results have been found
                             <tr><td>No data to display...</td></tr>
