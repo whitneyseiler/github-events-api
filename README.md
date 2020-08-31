@@ -8,7 +8,7 @@ Completed as a coding exercise for SeeClickFix. Live demo can be found [here](ht
 
 To start, in your browser navigate to: http://localhost:3000
 
-# Notes for SeeClickFix:
+# Notes:
 Once the owner and repo name are entered, the dropdown event types list is automatically populated with event type associated with that specific repo. A debounce function was used to prevent the API call from running before user finishes typing repo name. 
 
 # Changes I would have made given more time: 
